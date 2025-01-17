@@ -80,12 +80,14 @@ class GovernmentAgency:
             print("Recruitment process finalized.")
 
          
-peter1 = Student("Piotr1", "Brudny", '1.02.1984', 'Ankara', '5435345345', 'ED4234323')
-peter2 = Student("Piotr2", "Brudny", '2.02.1994', 'Ankara', '5435345345', 'ED41423')
-peter3 = Student("Piotr3", "Brudny", '4.02.1984', 'Ankara', '54353fds45345', 'ED42723')
-peter4 = Student("Piotr4", "Brudny", '1.12.2004', 'Ankara', '5435345345', 'ED423477')
+# Example Usage
+worker = Worker("John", "Doe", "1990-01-01", "123 Elm St", "555-1234")
+company = Company("TechCorp", "456 Maple Ave", "555-5678", "info@techcorp.com")
+recruiter = Recruiter("Alice")
+gov_agency = GovernmentAgency("Employment Bureau")
 
-peter1.ask_for_embassy_appointment('10.12.2024')    
-polish_embassy = Embassy('Polish Embassy', 'Ankara, Harika 10', '343242344', 'polishembassy@gov.tr')
+worker.ask_for_company_application("2025-01-20")
+company.handle_application_request()
+recruiter.approve_recruitment()
+gov_agency.handle_recruitment_approval()
 
-polish_embassy.handle_appointment_request()
