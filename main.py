@@ -13,7 +13,13 @@ class ApplicationConfirmationEvent(Event):
     
     def __init__(self, payload):
         super().__init__(payload)
-        
+
+
+class RecruitmentApprovalEvent(Event):
+    name = 'recruitment_approval'
+
+    def __init__(self, payload):
+        super().__init__(payload)
 
 communication_queue = [
 ]
@@ -41,14 +47,37 @@ class Company:
         self.email = email
 
     def handle_application_request(self):
-        current_request_event = communication_queue.pop(0)
-        print("Received request from worker with Passport:", current_request_event.passport_number)
-        
-  
-        event = ApplicationConfirmationEvent(request_id = current_request_event.passport_number, is_confirmed = True)
-        communication_queue.append(event)
-        print('Event', event.name, 'emitted!')
+        if communication_queue:
+            current_request_event = communication_queue.pop(0)
+            print("Received request from worker with phone number:", current_request_event.payload["phone_number"])
+            
+            event = ApplicationConfirmationEvent(payload={"request_id": current_request_event.payload["phone_number"], "is_confirmed": True})
+            communication_queue.append(event)
+            print('Event', event.name, 'emitted!')
 
+
+class Recruiter:
+    def __init__(self, name):
+        self.name = name
+
+    def approve_recruitment(self):
+        if communication_queue:
+            current_event = communication_queue.pop(0)
+            print(f"{self.name} handling confirmation event for request ID:", current_event.payload["request_id"])
+
+            event = RecruitmentApprovalEvent(payload={"recruiter": self.name, "approval_status": "Approved"})
+            communication_queue.append(event)
+            print('Event', event.name, 'emitted!')
+
+class GovernmentAgency:
+    def __init__(self, name):
+        self.name = name
+
+    def handle_recruitment_approval(self):
+        if communication_queue:
+            current_event = communication_queue.pop(0)
+            print(f"{self.name} received recruitment approval from recruiter:", current_event.payload["recruiter"])
+            print("Recruitment process finalized.")
 
          
 peter1 = Student("Piotr1", "Brudny", '1.02.1984', 'Ankara', '5435345345', 'ED4234323')
